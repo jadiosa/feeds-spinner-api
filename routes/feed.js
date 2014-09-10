@@ -11,12 +11,10 @@ var Server = mongo.Server,
 
   
 //Se crea con el fin de encontrar una base de datos apropiada para conectar.
-var uri = process.env.MONGOHQ_URL || 'localhost';
-  
-// Servidor http escuchara en un puerto apropiado, o el puerto 5050 por defecto
-var port = process.env.PORT || 27017; 
+var uri = process.env.MONGOLAB_URI || 'localhost';
+console.log("Uri: "+uri) ; 
 
-var server = new Server(uri, port, {auto_reconnect: true});
+var server = new Server(uri, 27017, {auto_reconnect: true});
 db = new Db('pescadorescolombiadb', server);
  
 db.open(function(err, db) {
