@@ -26,6 +26,7 @@ exports.findById = function(req, res) {
     MongoClient.connect(uri, function(err, db) {
 	    if(err) throw err;
 	    var id = req.params.id;
+	    console.log('findById: ' + id);
 	    db.collection('feeds', function(err, collection) {
 	        collection.findOne({'_id': id},function(err, item) {
 	            res.send(item);
