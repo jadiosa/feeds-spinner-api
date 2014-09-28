@@ -14,8 +14,21 @@ exports.findAll = function(req, res) {
 	    if(err) throw err;
 
 	    db.collection('feeds', function(err, collection) {
-	        collection.find({},{fields:{like:0, comment:0}}).toArray(function(err, items) {
+	        collection.find({},{fields:{like:0, comment:0, lastModified:0}}).toArray(function(err, items) {
 	            res.send(items);
+	            db.close();
+	        });
+	    });
+    });
+};
+
+exports.findById = function(req, res) {
+    MongoClient.connect(uri, function(err, db) {
+	    if(err) throw err;
+	    var id = req.params.id;
+	    db.collection('feeds', function(err, collection) {
+	        collection.findOne({'_id': id},function(err, item) {
+	            res.send(item);
 	            db.close();
 	        });
 	    });

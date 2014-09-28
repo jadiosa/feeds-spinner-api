@@ -36,6 +36,7 @@ app.all('*', function(req, res, next) {
 
 app.get('/', routes.index);
 app.get('/feed', feed.findAll);
+app.get('/feed/:id', feed.findById);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
