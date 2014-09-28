@@ -35,3 +35,19 @@ exports.findById = function(req, res) {
 	    });
     });
 };
+
+exports.addLike = function(req, res) {
+    MongoClient.connect(uri, function(err, db) {
+	    if(err) throw err;
+	    var id = req.params.id;
+    	var like = req.body;
+	    console.log('addLike.Id: ' + id);
+	    console.log(JSON.stringify(like));
+	    db.collection('feeds', function(err, collection) {
+	        collection.update({'_id': id}, {$push: {'like': like}, $inc: {'likes': 1}},function(err, item) {
+	            res.send(item);
+	            db.close();
+	        });
+	    });
+    });
+};

@@ -30,13 +30,15 @@ if ('development' == app.get('env')) {
 //add
 app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,HEAD,DELETE');
+  res.header("Access-Control-Allow-Headers", "content-Type,x-requested-with");
   next();
  });
 
 app.get('/', routes.index);
 app.get('/feed', feed.findAll);
 app.get('/feed/:id', feed.findById);
+app.put('/feed/:id/addLike', feed.addLike);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
