@@ -60,7 +60,7 @@ exports.addComment = function(req, res) {
 	    console.log('addComment.Id: ' + id);
 	    console.log(JSON.stringify(comment));
 	    db.collection('feeds', function(err, collection) {
-	        collection.update({'_id': id}, {$push: {'comment': like}, $inc: {'comments': 1}},function(err, item) {
+	        collection.update({'_id': id}, {$push: {'comment': comment}, $inc: {'comments': 1}},function(err, item) {
 	            res.send(item);
 	            db.close();
 	        });
