@@ -39,6 +39,7 @@ app.get('/', routes.index);
 app.get('/feed', feed.findAll);
 app.get('/feed/:id', feed.findById);
 app.put('/feed/:id/addLike', feed.addLike);
+app.put('/feed/:id/addComment', feed.addComment);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

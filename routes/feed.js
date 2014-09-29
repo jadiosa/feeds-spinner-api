@@ -51,3 +51,19 @@ exports.addLike = function(req, res) {
 	    });
     });
 };
+
+exports.addComment = function(req, res) {
+    MongoClient.connect(uri, function(err, db) {
+	    if(err) throw err;
+	    var id = req.params.id;
+    	var comment = req.body;
+	    console.log('addComment.Id: ' + id);
+	    console.log(JSON.stringify(comment));
+	    db.collection('feeds', function(err, collection) {
+	        collection.update({'_id': id}, {$push: {'comment': like}, $inc: {'comments': 1}},function(err, item) {
+	            res.send(item);
+	            db.close();
+	        });
+	    });
+    });
+};
