@@ -45,7 +45,7 @@ exports.addLike = function(req, res) {
 	    console.log(JSON.stringify(like));
 	    db.collection('feeds', function(err, collection) {
 	        collection.update({'_id': id}, {$push: {'like': like}, $inc: {'likes': 1}},function(err, item) {
-	            res.send(item);
+	            res.send(like);
 	            db.close();
 	        });
 	    });
@@ -61,7 +61,7 @@ exports.addComment = function(req, res) {
 	    console.log(JSON.stringify(comment));
 	    db.collection('feeds', function(err, collection) {
 	        collection.update({'_id': id}, {$push: {'comment': comment}, $inc: {'comments': 1}},function(err, item) {
-	            res.send(item);
+	            res.send(comment);
 	            db.close();
 	        });
 	    });
