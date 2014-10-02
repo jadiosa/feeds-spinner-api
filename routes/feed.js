@@ -26,6 +26,7 @@ exports.findById = function(req, res) {
     MongoClient.connect(uri, function(err, db) {
 	    if(err) throw err;
 	    var id = req.params.id;
+
 	    console.log('findById: ' + id);
 	    db.collection('feeds', function(err, collection) {
 	        collection.findOne({'_id': id},function(err, item) {
@@ -41,12 +42,18 @@ exports.addLike = function(req, res) {
 	    if(err) throw err;
 	    var id = req.params.id;
     	var like = req.body;
-	    console.log('addLike.Id: ' + id);
+    	console.log('addLike.Id: ' + id);
 	    console.log(JSON.stringify(like));
+
 	    db.collection('feeds', function(err, collection) {
-	        collection.update({'_id': id}, {$push: {'like': like}, $inc: {'likes': 1}},function(err, item) {
-	            res.send(like);
-	            db.close();
+	        collection.update({'_id': id}, {$push: {'like': like}, $inc: {'likes': 1}},function(err, result) {
+	            if (err){
+	            	console.log('Error adding like: ' + err);
+                	res.send({'error':'An error has occurred'});
+	            } else {
+	            	res.send(like);
+	            	db.close();
+	            }
 	        });
 	    });
     });
@@ -59,10 +66,16 @@ exports.addComment = function(req, res) {
     	var comment = req.body;
 	    console.log('addComment.Id: ' + id);
 	    console.log(JSON.stringify(comment));
+	    
 	    db.collection('feeds', function(err, collection) {
-	        collection.update({'_id': id}, {$push: {'comment': comment}, $inc: {'comments': 1}},function(err, item) {
-	            res.send(comment);
-	            db.close();
+	        collection.update({'_id': id}, {$push: {'comment': comment}, $inc: {'comments': 1}},function(err, err) {
+	            if (err){
+	            	console.log('Error adding comment: ' + err);
+                	res.send({'error':'An error has occurred'});
+	            } else {
+	            	res.send(comment);
+	            	db.close();
+	            }
 	        });
 	    });
     });
