@@ -33,9 +33,10 @@ exports.findById = function(req, res) {
 	        	//console.log('findById: Detail' + JSON.stringify(item));
 	            myFilteredData = item.like.filter(function(obj) {
     				if (obj.from.facebookid === '10152666156158057'){
+    					console.log('myFilteredData.true ');
     					return true;
     				}
-
+    				console.log('myFilteredData.false ');
   				});
   				console.log('myFilteredData: ' + myFilteredData);
 	            item.likedByUser = true ;
