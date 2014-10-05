@@ -39,7 +39,7 @@ exports.findById = function(req, res) {
     				console.log('myFilteredData.false ');
   				});
   				console.log('myFilteredData: ' + myFilteredData);
-	            item.likedByUser = true ;
+	            item.likedByUser = myFilteredData ;
 	            res.send(item); 
 	            db.close();
 	        });
