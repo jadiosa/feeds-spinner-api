@@ -78,6 +78,28 @@ exports.addLike = function(req, res) {
     });
 };
 
+exports.removeLike = function(req, res) {
+    MongoClient.connect(uri, function(err, db) {
+	    if(err) throw err;
+	    var id = req.params.id;
+    	var like = req.body;
+    	console.log('remove.Id: ' + id);
+	    console.log(JSON.stringify(like));
+
+	    db.collection('feeds', function(err, collection) {
+	        collection.update({'_id': id}, {$pull: {'like': like}, $inc: {'likes': -1}},function(err, result) {
+	            if (err){
+	            	console.log('Error removing like: ' + err);
+                	res.send({'error':'An error has occurred'});
+	            } else {
+	            	res.send(like);
+	            	db.close();
+	            }
+	        });
+	    });
+    });
+};
+
 exports.addComment = function(req, res) {
     MongoClient.connect(uri, function(err, db) {
 	    if(err) throw err;
