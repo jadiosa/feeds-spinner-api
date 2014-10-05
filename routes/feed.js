@@ -16,9 +16,9 @@ exports.findAll = function(req, res) {
 
 	    console.log('findAll.userid: ' + userid);
 	    db.collection('feeds', function(err, collection) {
-	        collection.find({},{fields:{like:0, comment:0, lastModified:0}}).toArray(function(err, items) {
+	        collection.find({},{fields:{comment:0, lastModified:0}}).toArray(function(err, items) {
 
-	        	/* Se agrega el campo likedByUser al JSON que sde devuelve */
+	        	/* Se agrega el campo likedByUser al array de Feeds que se devuelven */
 	        	items.forEach(function(item) {
 	        		if (item.like){
 		        		like = item.like.filter(function(obj) {
