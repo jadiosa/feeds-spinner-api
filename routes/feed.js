@@ -4,7 +4,7 @@
  */
 
 var MongoClient = require('mongodb').MongoClient
-  
+ 
 //Se crea con el fin de encontrar una base de datos apropiada para conectar.
 var uri = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/pescadorescolombiadb';
 
@@ -29,7 +29,7 @@ exports.findById = function(req, res) {
 	    var userid = req.params.userid;
 
 	    console.log('findById.id: ' + id);
-	    console.log('findById.userId: ' + userid);
+	    console.log('findById.Query: ' + JSON.stringify(req.query));
 	    db.collection('feeds', function(err, collection) {
 	        collection.findOne({'_id': id},function(err, item) {
 	        	
