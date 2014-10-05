@@ -32,7 +32,7 @@ exports.findById = function(req, res) {
 	        collection.findOne({'_id': id},function(err, item) {
 	        	//console.log('findById: Detail' + JSON.stringify(item));
 	            myFilteredData = item.like.filter(function(obj) {
-    				if obj.from.facebookid === '10152666156158057'{
+    				if (obj.from.facebookid === '10152666156158057'){
     					return true;
     				}
 
