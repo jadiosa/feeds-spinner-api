@@ -31,16 +31,20 @@ exports.findById = function(req, res) {
 	    db.collection('feeds', function(err, collection) {
 	        collection.findOne({'_id': id},function(err, item) {
 	        	
-
-	            like = item.like.filter(function(obj) {
-    				return obj.from.facebookid === '10152666156158057';
-  				});
+	        	if (item.like){
+	        		like = item.like.filter(function(obj) {
+	    				return obj.from.facebookid === '10152666156158057';
+	  				});
+		            
+		            if(like.length > 0){
+		            	item.likedByUser = true;
+		            }else{
+		            	item.likedByUser = false;
+		            }
+	        	}else{
+	        		item.likedByUser = false;
+	        	}
 	            
-	            if(like.length > 0){
-	            	item.likedByUser = true;
-	            }else{
-	            	item.likedByUser = false;
-	            }
 	            
 	            res.send(item); 
 	            db.close();
