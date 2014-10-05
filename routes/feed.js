@@ -30,9 +30,15 @@ exports.findById = function(req, res) {
 	    console.log('findById: ' + id);
 	    db.collection('feeds', function(err, collection) {
 	        collection.findOne({'_id': id},function(err, item) {
-	            res.send(item);
+	        	console.log('findById: ' + JSON.stringify(item));
+	            myFilteredData = item.like.filter(function(obj) {
+    				return obj.from.facebookid === '10152666156158057';
+  				});
+  				console.log(console.myFilteredData);
+	            res.send(item); 
 	            db.close();
 	        });
+
 	    });
     });
 };
