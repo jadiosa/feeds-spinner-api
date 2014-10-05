@@ -26,10 +26,10 @@ exports.findById = function(req, res) {
     MongoClient.connect(uri, function(err, db) {
 	    if(err) throw err;
 	    var id = req.params.id;
-	    var userid = req.params.userid;
+	    var userid = req.query.userid;
 
 	    console.log('findById.id: ' + id);
-	    console.log('findById.Query: ' + JSON.stringify(req.query));
+	    console.log('findById.userid: ' + userid);
 	    db.collection('feeds', function(err, collection) {
 	        collection.findOne({'_id': id},function(err, item) {
 	        	
