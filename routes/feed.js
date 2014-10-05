@@ -31,7 +31,7 @@ exports.findById = function(req, res) {
 	    db.collection('feeds', function(err, collection) {
 	        collection.findOne({'_id': id},function(err, item) {
 	        	
-	        	
+
 	            like = item.like.filter(function(obj) {
     				return obj.from.facebookid === '10152666156158057';
   				});
@@ -39,7 +39,7 @@ exports.findById = function(req, res) {
 	            if(like.length > 0){
 	            	item.likedByUser = true;
 	            }else{
-	            	item.likedByUser = false
+	            	item.likedByUser = false;
 	            }
 	            
 	            res.send(item); 
