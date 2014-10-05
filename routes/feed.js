@@ -14,6 +14,7 @@ exports.findAll = function(req, res) {
 	    if(err) throw err;
 	    var userid = req.query.userid;
 
+	    console.log('findAll.userid: ' + userid);
 	    db.collection('feeds', function(err, collection) {
 	        collection.find({},{fields:{like:0, comment:0, lastModified:0}}).toArray(function(err, items) {
 
