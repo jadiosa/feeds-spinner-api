@@ -12,9 +12,30 @@ var uri = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/pescadorescolom
 exports.findAll = function(req, res) {
     MongoClient.connect(uri, function(err, db) {
 	    if(err) throw err;
+	    var userid = req.query.userid;
 
 	    db.collection('feeds', function(err, collection) {
 	        collection.find({},{fields:{like:0, comment:0, lastModified:0}}).toArray(function(err, items) {
+
+	        	/* Se agrega el campo likedByUser al JSON que sde devuelve */
+	        	items.forEach(function(item) {
+	        		if (item.like){
+		        		like = item.like.filter(function(obj) {
+		    				return obj.from.facebookid === userid;
+		  				});
+			            
+			            if(like.length > 0){
+			            	item.likedByUser = true;
+			            }else{
+			            	item.likedByUser = false;
+			            }
+		        	}else{
+		        		item.likedByUser = false;
+		        	}
+	        	});
+		        	
+	        	/* ------------------------------------  */
+
 	            res.send(items);
 	            db.close();
 	        });
@@ -33,6 +54,7 @@ exports.findById = function(req, res) {
 	    db.collection('feeds', function(err, collection) {
 	        collection.findOne({'_id': id},function(err, item) {
 	        	
+	        	/* Se agrega el campo likedByUser al JSON que sde devuelve */
 	        	if (item.like){
 	        		like = item.like.filter(function(obj) {
 	    				return obj.from.facebookid === userid;
@@ -46,7 +68,7 @@ exports.findById = function(req, res) {
 	        	}else{
 	        		item.likedByUser = false;
 	        	}
-	            
+	        	/* ------------------------------------  */
 	            
 	            res.send(item); 
 	            db.close();
