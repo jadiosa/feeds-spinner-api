@@ -26,14 +26,16 @@ exports.findById = function(req, res) {
     MongoClient.connect(uri, function(err, db) {
 	    if(err) throw err;
 	    var id = req.params.id;
+	    var userid = req.params.userid;
 
-	    console.log('findById: ' + id);
+	    console.log('findById.id: ' + id);
+	    console.log('findById.userId: ' + userid);
 	    db.collection('feeds', function(err, collection) {
 	        collection.findOne({'_id': id},function(err, item) {
 	        	
 	        	if (item.like){
 	        		like = item.like.filter(function(obj) {
-	    				return obj.from.facebookid === '10152666156158057';
+	    				return obj.from.facebookid === userid;
 	  				});
 		            
 		            if(like.length > 0){
