@@ -79,6 +79,26 @@ exports.findById = function(req, res) {
     });
 };
 
+exports.addFeed = function(req, res) {
+    MongoClient.connect(uri, function(err, db) {
+	    if(err) throw err;
+    	var feed = req.body;
+    	console.log('addFeed.Id: ' + JSON.stringify(feed));
+
+	    db.collection('feeds', function(err, collection) {
+	        collection.insert(feed,function(err, result) {
+	            if (err){
+	            	console.log('Error adding Feed: ' + err);
+                	res.send({'error':'An error has occurred'});
+	            } else {
+	            	res.send(feed);
+	            	db.close();
+	            }
+	        });
+	    });
+    });
+};
+
 exports.addLike = function(req, res) {
     MongoClient.connect(uri, function(err, db) {
 	    if(err) throw err;

@@ -38,6 +38,7 @@ app.all('*', function(req, res, next) {
 app.get('/', routes.index);
 app.get('/feed', feed.findAll);
 app.get('/feed/:id', feed.findById);
+app.post('/feed', feed.addFeed);
 app.put('/feed/:id/addLike', feed.addLike);
 app.put('/feed/:id/removeLike', feed.removeLike);
 app.put('/feed/:id/addComment', feed.addComment);
