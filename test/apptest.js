@@ -171,7 +171,7 @@ var feeds = [
 				        name: "Jonathan Diosa",
 				        facebookid: "10152666156158057"
 				    },
-				    message: "Me voy de pesca2",
+				    message: "Me voy de pesca",
 				    lastModified: "2014-10-17T13:56:11.601Z",
 				    created_time: "2014-10-17T13:56:11.601Z",
 				    _id: new BSON.ObjectID('54412000f8d9b3020084c223'),
