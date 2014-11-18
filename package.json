@@ -6,8 +6,10 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "coveralls": "^2.11.2",
     "express": "3.4.3",
     "jade": "*",
+    "mocha-lcov-reporter": "0.0.1",
     "mongodb": "^1.4.20",
     "should": "^4.3.0",
     "supertest": "^0.15.0"

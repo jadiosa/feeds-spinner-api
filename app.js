@@ -43,6 +43,4 @@ app.put('/feed/:id/addLike', feed.addLike);
 app.put('/feed/:id/removeLike', feed.removeLike);
 app.put('/feed/:id/addComment', feed.addComment);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
+http.createServer(app).listen(app.get('port'));
