@@ -73,6 +73,48 @@ describe('Feed', function(){
 			        done()
 			    });
 		})
+		it('should return likedByUser as true if a given user liked a feed', function(done){
+			request(app)
+		    	.get('/feed?userid=10152666156158057')
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+		    		res.body.forEach(function(feed) {
+					    feed.likedByUser.should.be.true;
+					});
+					done();
+			    });
+		});
+		it('should return likedByUser as false if a given user did not like a feed', function(done){
+			request(app)
+		    	.get('/feed?userid=10152666156158060')
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+		    		res.body.forEach(function(feed) {
+					    feed.likedByUser.should.be.false;
+					});
+					done();
+			    });
+		});
+		it('should return likedByUser as true/false if a given user liked/did not like feeds', function(done){
+			request(app)
+		    	.get('/feed?userid=10152666156158058')
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+		    		res.body.forEach(function(feed) {
+		    			if(feed._id == '54412000f8d9b3020084c224')
+		    				feed.likedByUser.should.be.true;
+		    			else
+		    				feed.likedByUser.should.be.false;
+					});
+					done();
+			    });
+		});
   	});
   	
   	describe('#GET /feed/:id', function(){
@@ -157,11 +199,68 @@ describe('Feed', function(){
 		    	.end(function(err, res){
 		    		if (err) return done(err);
 		    		res.body.likedByUser.should.be.false;
-		    		process.env.MONGOUNIT_TEST_URI = 'hola';
 					done();
 			    });
 		});
 
+  	});
+
+  	describe('#POST /feed', function(){
+  		it('should return code 200', function(done){
+			request(app)
+		    	.post('/feed')
+		    	.send(newfeed)
+		    	.expect(200)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+					done();
+			    });
+		});
+		it('should return a Content-Type application/json', function(done){
+			request(app)
+		    	.post('/feed')
+		    	.send(newfeed)
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+					done();
+			    });
+		});
+		it('should return a correct json objetc', function(done){
+			request(app)
+		    	.post('/feed')
+		    	.send(newfeed)
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+		    		res.body.should.be.an.Object;
+		    		should.exist(res.body._id);
+		    		should.exist(res.body.from);
+		    		res.body.from.should.be.an.Object;
+		    		should.exist(res.body.from.name);
+		    		should.exist(res.body.from.facebookid);
+		    		should.exist(res.body.message);
+		    		should.exist(res.body.lastModified);
+		    		should.exist(res.body.created_time);
+					done();
+			    });
+		});
+		it('should return a json objetc with same information entered', function(done){
+			request(app)
+		    	.post('/feed')
+		    	.send(newfeed)
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+		    		res.body.from.name.should.equal('Jonathan Diosa');
+		    		res.body.from.facebookid.should.equal('10152666156158057');
+		    		res.body.message.should.equal('Me voy para el penol');
+					done();
+			    });
+		});
   	})
 });
 
@@ -187,8 +286,8 @@ var feeds = [
 				},
 				{
 				    from: {
-				        name: "Jonathan Diosa",
-				        facebookid: "10152666156158057"
+				        name: "Jose Diosa",
+				        facebookid: "10152666156158058"
 				    },
 				    message: "Me voy para los llanos",
 				    lastModified: "2014-10-17T13:56:11.601Z",
@@ -200,8 +299,23 @@ var feeds = [
 				                name: "Jonathan Diosa",
 				                facebookid: "10152666156158057"
 				            }
+				        },
+				        {
+				            from: {
+				                name: "Jose Diosa",
+				                facebookid: "10152666156158058"
+				            }
 				        }
 				    ],
 				    likes: 1
 				}
 			];
+
+var newfeed = 
+				{
+				    from: {
+				        name: "Jonathan Diosa",
+				        facebookid: "10152666156158057"
+				    },
+				    message: "Me voy para el penol",				    
+				};
