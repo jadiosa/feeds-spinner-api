@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.end('Pescadores Colombia Api');
+  res.end('Pescadores Colombia Api - Clase App Empresariales');
 };
