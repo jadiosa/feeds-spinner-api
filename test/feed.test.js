@@ -51,7 +51,7 @@ describe('Feed', function(){
 		it('should return a json array', function(done){
 			request(app)
 		    	.get('/feed')
-		    	.expect(200)
+		    	.expect(300)
 		    	.expect('Content-Type', /json/)
 		    	.end(function(err, res){
 		    		if (err) return done(err);
@@ -204,6 +204,7 @@ describe('Feed', function(){
 		});
 
   	});
+	
 
   	describe('#POST /feed', function(){
   		it('should return code 200', function(done){
@@ -261,7 +262,7 @@ describe('Feed', function(){
 					done();
 			    });
 		});
-  	})
+  	}) 
 });
 
 var feeds = [
