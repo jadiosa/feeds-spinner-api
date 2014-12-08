@@ -6,6 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var feed = require('./lib/feed');
+var catches = require('./lib/catches');
 var http = require('http');
 var path = require('path');
 
@@ -36,11 +37,15 @@ app.all('*', function(req, res, next) {
  });
 
 app.get('/', routes.index);
+
 app.get('/feed', feed.findAll);
 app.get('/feed/:id', feed.findById);
 app.post('/feed', feed.addFeed);
 app.put('/feed/:id/addLike', feed.addLike);
 app.put('/feed/:id/removeLike', feed.removeLike);
 app.put('/feed/:id/addComment', feed.addComment);
+
+app.get('/catches/user/:userid', catches.findAll);
+app.get('/catches/:id', catches.findById);
 
 http.createServer(app).listen(app.get('port'));

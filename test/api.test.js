@@ -51,7 +51,7 @@ describe('Feed', function(){
 		it('should return a json array', function(done){
 			request(app)
 		    	.get('/feed')
-		    	.expect(300)
+		    	.expect(200)
 		    	.expect('Content-Type', /json/)
 		    	.end(function(err, res){
 		    		if (err) return done(err);
@@ -265,6 +265,117 @@ describe('Feed', function(){
   	}) 
 });
 
+describe('Catches', function(){
+
+	before(function(done) {
+    	MongoClient.connect(uri, function(err, db) {
+		    db.collection("catches").insert(catches, function(err, db) {
+		    	done();
+		    });
+		    
+		});
+  	});
+
+  	after(function (done) {
+  		MongoClient.connect(uri, function(err, db) {
+		    db.collection("catches").remove({}, function(err, db) {
+		    	done();
+		    });
+		    
+		});
+	});
+
+	describe('#GET /catches/user/:userid', function(done){
+		it('should return code 200', function(done){
+			request(app)
+		    	.get('/catches/user/10152666156158057')
+		    	.expect(200)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+					done();
+			    });
+		});
+		it('should return a Content-Type application/json', function(done){
+			request(app)
+		    	.get('/catches/user/10152666156158057')
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+					done();
+			    });
+		});
+		it('should return a json Array', function(done){
+			request(app)
+		    	.get('/catches/user/10152666156158057')
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+		    		should.not.exist(err);
+		    		should.exist(res);
+		    		res.body.should.be.an.Array.and.an.Object;
+			        done()
+			    });
+		});
+		it('should return only userid catches', function(done){
+			request(app)
+		    	.get('/catches/user/10152666156158057')
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+		    		res.body.should.have.length(2);
+
+		    		res.body.forEach(function(item) {
+		        		item.user.facebookid.should.equal('10152666156158057');
+	        		});
+
+			        done()
+			    });
+		})
+  	});
+
+	describe('#GET /catches/:id', function(done){
+		it('should return code 200', function(done){
+			request(app)
+		    	.get('/catches/54412000f8d9b3020084c245')
+		    	.expect(200)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+					done();
+			    });
+		});
+		it('should return a Content-Type application/json', function(done){
+			request(app)
+		    	.get('/catches/54412000f8d9b3020084c245')
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+					done();
+			    });
+		});
+		it('should return correct json object', function(done){
+			request(app)
+		    	.get('/catches/54412000f8d9b3020084c245')
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+		    		should.not.exist(err);
+		    		should.exist(res);
+		    		res.body.should.be.an.Object;
+		    		res.body.user.facebookid.should.equal('10152666156158057');
+		    		res.body._id.should.equal('54412000f8d9b3020084c245');
+
+			        done()
+			    });
+		})
+  	});
+
+});
+
 var feeds = [
 				{
 				    from: {
@@ -311,6 +422,87 @@ var feeds = [
 				    likes: 1
 				}
 			];
+
+var catches = [
+				{
+				    user: {
+				        name: "Jonathan Diosa",
+				        facebookid: "10152666156158057"
+				    },
+				    fishName: "Mojarra",
+				    weight: "2",
+				    placeName: "Estacion Cocorna",
+				    placeLocation: "Estacion Cocorna",
+				    date: "2014-10-17T13:56:11.601Z",
+				    length: "42",
+				    released: true,
+				    message: "Me voy para los llanos",
+				    _id: new BSON.ObjectID('54412000f8d9b3020084c244'),
+				    tags: [
+				        {
+				            name: "Record"
+				        },
+				        {
+				            name: "Mejor tamaño"
+				        }
+				    ]
+				},
+				{
+				    user: {
+				        name: "Jonathan Diosa",
+				        facebookid: "10152666156158057"
+				    },
+				    fishName: "Picuda",
+				    weight: "5",
+				    placeName: "Estacion Cocorna",
+				    placeLocation: "Estacion Cocorna",
+				    date: "2014-10-17T13:56:11.601Z",
+				    length: "42",
+				    released: false,
+				    message: "Me voy para los llanos",
+				    _id: new BSON.ObjectID('54412000f8d9b3020084c245'),
+				    tags: [
+				        {
+				            name: "Record"
+				        },
+				        {
+				            name: "Mejor tamaño"
+				        }
+				    ]
+				},
+				{
+				    user: {
+				        name: "Fredy Higuita",
+				        facebookid: "10152666156158059"
+				    },
+				    fishName: "Picuda",
+				    weight: "5",
+				    placeName: "Estacion Cocorna",
+				    placeLocation: "Estacion Cocorna",
+				    date: "2014-10-17T13:56:11.601Z",
+				    length: "42",
+				    released: false,
+				    message: "Me voy para los llanos",
+				    _id: new BSON.ObjectID('54412000f8d9b3020084c246'),
+				    tags: [
+				        {
+				            name: "Record"
+				        },
+				        {
+				            name: "Mejor tamaño"
+				        }
+				    ]
+				}
+			];
+
+var newfeed = 
+				{
+				    from: {
+				        name: "Jonathan Diosa",
+				        facebookid: "10152666156158057"
+				    },
+				    message: "Me voy para el penol",				    
+				};
 
 var newfeed = 
 				{
