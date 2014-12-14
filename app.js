@@ -47,5 +47,6 @@ app.put('/feed/:id/addComment', feed.addComment);
 
 app.get('/catches/user/:userid', catches.findAll);
 app.get('/catches/:id', catches.findById);
+app.post('/catches', catches.addCatch);
 
 http.createServer(app).listen(app.get('port'));

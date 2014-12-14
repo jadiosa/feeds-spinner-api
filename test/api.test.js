@@ -374,6 +374,55 @@ describe('Catches', function(){
 		})
   	});
 
+	describe('#POST /catches', function(){
+  		it('should return code 200', function(done){
+			request(app)
+		    	.post('/catches')
+		    	.send(newcatch)
+		    	.expect(200)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+					done();
+			    });
+		});
+		it('should return a Content-Type application/json', function(done){
+			request(app)
+		    	.post('/catches')
+		    	.send(newcatch)
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+					done();
+			    });
+		});
+		it('should return a correct json objetc', function(done){
+			request(app)
+		    	.post('/catches')
+		    	.send(newcatch)
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+		    		res.body.should.be.an.Object;
+		    		//TODO:complete
+					done();
+			    });
+		});
+		it('should return a json objetc with same information entered', function(done){
+			request(app)
+		    	.post('/catches')
+		    	.send(newfeed)
+		    	.expect(200)
+		    	.expect('Content-Type', /json/)
+		    	.end(function(err, res){
+		    		if (err) return done(err);
+		    		//TODO:complete
+					done();
+			    });
+		});
+  	}) 
+
 });
 
 var feeds = [
@@ -503,10 +552,9 @@ var newfeed =
 				    },
 				    message: "Me voy para el penol",				    
 				};
-
-var newfeed = 
+var newcatch = 
 				{
-				    from: {
+				    user: {
 				        name: "Jonathan Diosa",
 				        facebookid: "10152666156158057"
 				    },
