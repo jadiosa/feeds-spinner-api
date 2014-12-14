@@ -36,6 +36,8 @@ app.all('*', function(req, res, next) {
   	next();
  });
 
+app.use(express.static(path.join(__dirname, './lib/uploads')));
+
 app.get('/', routes.index);
 
 app.get('/feed', feed.findAll);
@@ -48,5 +50,7 @@ app.put('/feed/:id/addComment', feed.addComment);
 app.get('/catches/user/:userid', catches.findAll);
 app.get('/catches/:id', catches.findById);
 app.post('/catches', catches.addCatch);
+
+app.post('/images', catches.addImage); // endpoint to post new images
 
 http.createServer(app).listen(app.get('port'));
