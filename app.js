@@ -7,6 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var feed = require('./lib/feed');
 var catches = require('./lib/catches');
+var sign = require('./lib/sign');
 var http = require('http');
 var path = require('path');
 
@@ -51,6 +52,6 @@ app.get('/catches/user/:userid', catches.findAll);
 app.get('/catches/:id', catches.findById);
 app.post('/catches', catches.addCatch);
 
-app.post('/images', catches.addImage); // endpoint to post new images
+app.post('/sign_s3', sign.sign_s3);
 
 http.createServer(app).listen(app.get('port'));
