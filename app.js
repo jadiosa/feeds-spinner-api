@@ -53,7 +53,7 @@ app.get('/catches/user/:userid', catches.findAll);
 app.get('/catches/:id', catches.findById);
 app.post('/catches', catches.addCatch);
 
-app.get('/user/:username/:pass', user.findByUserName);
+app.post('/user', user.findByUserName);
 
 app.post('/sign_s3', sign.sign_s3);
 
