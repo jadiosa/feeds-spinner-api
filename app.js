@@ -6,6 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var feed = require('./lib/feed');
+var user = require('./lib/user');
 var catches = require('./lib/catches');
 var sign = require('./lib/sign');
 var http = require('http');
@@ -51,6 +52,8 @@ app.put('/feed/:id/addComment', feed.addComment);
 app.get('/catches/user/:userid', catches.findAll);
 app.get('/catches/:id', catches.findById);
 app.post('/catches', catches.addCatch);
+
+app.get('/user/:username', user.findByUserName);
 
 app.post('/sign_s3', sign.sign_s3);
 
